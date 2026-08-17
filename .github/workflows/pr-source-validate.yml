@@ -23,16 +23,16 @@ jobs:
       - name: Fetch base branch
         run: git fetch origin "${{ github.base_ref }}"
 
-      - name: Clone latest venerax_cli
-        run: git clone --depth 1 https://github.com/venerax-app/venerax_cli.git /tmp/venerax_cli
+      - name: Clone latest venera_cli
+        run: git clone --depth 1 https://github.com/venera-app/venera_cli.git /tmp/venera_cli
 
-      - name: Get venerax_cli dependencies
-        working-directory: /tmp/venerax_cli
+      - name: Get venera_cli dependencies
+        working-directory: /tmp/venera_cli
         run: dart pub get
 
-      - name: Build venerax_cli
-        working-directory: /tmp/venerax_cli
-        run: dart build cli --target bin/venerax.dart --output /tmp/venerax
+      - name: Build venera_cli
+        working-directory: /tmp/venera_cli
+        run: dart build cli --target bin/venera.dart --output /tmp/venera
 
       - name: Collect changed config files
         id: changed-configs
@@ -46,7 +46,7 @@ jobs:
         run: |
           while IFS= read -r file; do
             [ -n "$file" ] || continue
-            /tmp/venerax/bundle/bin/venerax source validate "$file"
+            /tmp/venera/bundle/bin/venera source validate "$file"
           done < /tmp/changed-configs.txt
 
       - name: No changed config files
