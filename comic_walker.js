@@ -75,14 +75,15 @@ class ComicWalker extends ComicSource {
     return response;
   }
 
+  // 修复：将 response 改为 resp，并正确解析 JSON
   async init() {
     const itunes_api = "https://itunes.apple.com/lookup?bundleId=jp.co.bookwalker.cwapp.ios&country=jp";
 
     const resp = await Network.get(itunes_api);
 
     if (resp.status == 200) {
-      response = JSON.parse(resp.body);
-      this.latestVersion = response.version;
+      const data = JSON.parse(resp.body);
+      this.latestVersion = data.version;
     }
 
     await this.refreshToken();
@@ -141,7 +142,6 @@ class ComicWalker extends ComicSource {
             }),
         );
         result["新連載"] = newSerialization;
-
 
         return result;
       },
